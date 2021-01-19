@@ -1,0 +1,54 @@
+{% load static %}
+<html>
+   <body>
+     <form action="{% url 'save_file' %}" method="post" enctype="multipart/form-data">
+         {% csrf_token %}
+         <table align="center" border="2">
+             <tr>
+                 <th>Upload File</th>
+             </tr>
+             <tr>
+                 <th>
+                     <input type="text" placeholder="name" required name="f1">
+                 </th>
+             </tr>
+             <tr>
+                 <th>
+                     Upload To:<input type="file" required name="f2">
+                 </th>
+             </tr>
+             <tr>
+                 <th>
+                     <button type="submit">SAVE</button>
+                 </th>
+             </tr>
+         </table>
+     </form>
+         {% if data %}
+             <table align="center" border="2">
+               <tr>
+                   <th height="80" colspan="3">Uploaded File's</th>
+               </tr>
+               <tr>
+                   <th>File no</th>
+                   <th>Name</th>
+                   <th>Download</th>
+               </tr>
+                 {% for x in data %}
+                   <tr>
+                       <th>{{ x.fno }}</th>
+                       <th>{{ x.name }}</th>
+                       <th>
+                           <a download href="{{ x.file.url }}">
+                               <img src="{% static 'image/recycle.png' %}" width="25" height="25">
+                           </a>
+                       </th>
+                   </tr>
+               {% endfor %}
+             </table>
+               {% else %}
+               <h1 style="text-align: center">Data is not Saved</h1>
+               {% endif %}
+
+   </body>
+</html>
